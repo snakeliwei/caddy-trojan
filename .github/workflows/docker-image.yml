@@ -29,5 +29,5 @@ jobs:
         run: |
           docker buildx build --push \
             -t ${DOCKER_REPO}:latest \
-            -f caddy-trojan/Dockerfiles/Dockerfile \
-            .
+            -f Dockerfiles/Dockerfile \
+            ./Dockerfiles
