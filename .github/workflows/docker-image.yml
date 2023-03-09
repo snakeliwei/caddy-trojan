@@ -16,6 +16,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
         
+      - name: set up buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+          
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
@@ -27,7 +33,10 @@ jobs:
           # fork friendly ^^
           DOCKER_REPO: ghcr.io/${{ github.repository_owner }}/caddy-trojan
         run: |
-          docker buildx build --push \
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --build-arg VERSION=latest \
+            --push \
             -t ${DOCKER_REPO}:latest \
             -f Dockerfiles/Dockerfile \
             ./Dockerfiles
