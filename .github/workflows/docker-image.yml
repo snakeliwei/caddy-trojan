@@ -22,19 +22,12 @@ jobs:
       - name: build (and publish) main image
         env:
           # fork friendly ^^
-          DOCKER_REPO: ghcr.io/${{ github.repository_owner }}/caddy-trojan:main
+          DOCKER_REPO: ghcr.io/${{ github.repository_owner }}/caddy-trojan
         run: |
-          docker buildx build \
-            --platform linux/amd64,linux/arm64 \
-            --build-arg VERSION=${{ steps.prepare.outputs.tag_name }} \
-            --push \
-            -t ${DOCKER_REPO}:${{ steps.prepare.outputs.tag_name }} \
-            -f dockerfiles/endpoints-operator/Dockerfile \
-            .
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
             --build-arg VERSION=latest \
             --push \
             -t ${DOCKER_REPO}:latest \
-            -f dockerfiles/endpoints-operator/Dockerfile \
+            -f caddy-trojan/Dockerfiles/Dockerfile \
             .
